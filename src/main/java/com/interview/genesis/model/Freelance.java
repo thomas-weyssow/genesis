@@ -1,10 +1,16 @@
 package com.interview.genesis.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Freelance extends Contact {
 
+    @Column(nullable = false, unique = true)
     private String vat;
 
     public Freelance() {}
