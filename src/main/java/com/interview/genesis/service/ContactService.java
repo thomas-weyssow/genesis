@@ -26,6 +26,17 @@ public class ContactService {
         this.companyRepository = companyRepository;
     }
 
+    public List<ContactResponse> all() {
+
+        List<Contact> contacts = contactRepository.findAll();
+
+        return contacts
+            .stream()
+            .map(ContactResponse::from)
+            .toList()
+        ;
+    }
+
     public ContactResponse create(CreateContactRequest request) {
 
         Contact contact = switch (request) {
@@ -77,6 +88,16 @@ public class ContactService {
         }
 
         return ContactResponse.from(contact);
+    }
+
+    public void delete(Long id) {
+
+        Contact contact = contactRepository
+            .findById(id)
+            .orElseThrow(() -> new ContactNotFoundException(id))
+        ;
+
+        contactRepository.delete(contact);
     }
 
     private List<Company> resolveCompanies(List<Long> companyIds) {

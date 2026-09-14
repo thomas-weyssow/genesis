@@ -4,11 +4,13 @@ import com.interview.genesis.dto.company.CompanyResponse;
 import com.interview.genesis.dto.company.CreateCompanyRequest;
 import com.interview.genesis.dto.company.UpdateCompanyRequest;
 import com.interview.genesis.service.CompanyService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/company")
@@ -18,6 +20,12 @@ public class CompanyController {
 
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
+    }
+
+    @GetMapping
+    public List<CompanyResponse> all() {
+
+        return companyService.all();
     }
 
     @PostMapping
@@ -43,4 +51,13 @@ public class CompanyController {
 
         return companyService.update(request, id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+
+        companyService.delete(id);
+    }
+
+
 }

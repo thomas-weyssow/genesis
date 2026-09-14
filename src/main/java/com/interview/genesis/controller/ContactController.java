@@ -4,11 +4,13 @@ import com.interview.genesis.dto.contact.ContactResponse;
 import com.interview.genesis.dto.contact.CreateContactRequest;
 import com.interview.genesis.dto.contact.UpdateContactRequest;
 import com.interview.genesis.service.ContactService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/contact")
@@ -18,6 +20,12 @@ public class ContactController {
 
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
+    }
+
+    @GetMapping
+    public List<ContactResponse> all() {
+
+        return contactService.all();
     }
 
     @PostMapping
@@ -42,5 +50,12 @@ public class ContactController {
     public ContactResponse update(@RequestBody UpdateContactRequest request, @PathVariable Long id) {
 
         return contactService.update(request, id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+
+        contactService.delete(id);
     }
 }

@@ -9,6 +9,8 @@ import com.interview.genesis.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CompanyService {
@@ -17,6 +19,17 @@ public class CompanyService {
 
     public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
+    }
+
+    public List<CompanyResponse> all() {
+
+        List<Company> companies = companyRepository.findAll();
+
+        return companies
+            .stream()
+            .map(CompanyResponse::from)
+            .toList()
+        ;
     }
 
     public CompanyResponse create(CreateCompanyRequest request) {
@@ -43,5 +56,20 @@ public class CompanyService {
             company.setVat(request.vat());
 
         return CompanyResponse.from(company);
+    }
+
+    public void delete(Long id) {
+
+        Company company = companyRepository
+            .findById(id)
+            .orElseThrow(() -> new CompanyNotFoundException(id))
+        ;
+
+        company
+            .getContacts()
+            .forEach(c -> c.getCompanies().remove(company))
+        ;
+
+        companyRepository.delete(company);
     }
 }
