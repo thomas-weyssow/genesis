@@ -1,11 +1,10 @@
-package com.interview.genesis.dto;
+package com.interview.genesis.dto.contact;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-
-public record CreateEmployeeRequest(
+public record CreateFreelanceRequest(
 
     @Schema(
         description = "First name",
@@ -25,6 +24,12 @@ public record CreateEmployeeRequest(
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     String address,
+    @Schema(
+        description = "VAT number",
+        example = "BE0123456789",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    String vat,
     @Schema(
         description = "IDs of the companies the contact works for",
         example = "[1, 2]",

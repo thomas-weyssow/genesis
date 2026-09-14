@@ -1,4 +1,4 @@
-package com.interview.genesis.dto;
+package com.interview.genesis.dto.company;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -13,7 +13,7 @@ public record CreateCompanyRequest(
     @Schema(
         description = "VAT number",
         example = "BE0123456789",
-        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     String vat
 

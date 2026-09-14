@@ -1,8 +1,8 @@
 package com.interview.genesis.service;
 
-import com.interview.genesis.dto.CreateContactRequest;
-import com.interview.genesis.dto.CreateEmployeeRequest;
-import com.interview.genesis.dto.CreateFreelanceRequest;
+import com.interview.genesis.dto.contact.*;
+import com.interview.genesis.exception.CompaniesNotFoundException;
+import com.interview.genesis.exception.ContactNotFoundException;
 import com.interview.genesis.model.Company;
 import com.interview.genesis.model.Contact;
 import com.interview.genesis.model.Employee;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,18 +26,7 @@ public class ContactService {
         this.companyRepository = companyRepository;
     }
 
-    public void create(CreateContactRequest request) throws Exception {
-
-        List<Company> companies = companyRepository.findAllById(request.companyIds());
-
-        List<Long> missingIds = request
-            .companyIds()
-            .stream()
-            .filter(id -> companies.stream().noneMatch(c -> c.getId().equals(id)))
-            .toList()
-        ;
-        if (!missingIds.isEmpty())
-            throw new Exception("no company exists with id " + missingIds.stream().map(String::valueOf).collect(Collectors.joining(", ")));
+    public ContactResponse create(CreateContactRequest request) {
 
         Contact contact = switch (request) {
 
@@ -54,8 +42,57 @@ public class ContactService {
                 fReq.vat()
             );
         };
-        contact.getCompanies().addAll(companies);
+        if (request.companyIds() != null) {
+            List<Company> companies = resolveCompanies(request.companyIds());
+            contact.getCompanies().addAll(companies);
+        }
 
         contactRepository.save(contact);
+        return ContactResponse.from(contact);
+    }
+
+    public ContactResponse update(UpdateContactRequest request, Long id) {
+
+        Contact contact = contactRepository
+            .findById(id)
+            .orElseThrow(() -> new ContactNotFoundException(id))
+        ;
+
+        if (request.firstName() != null)
+            contact.setFirstName(request.firstName());
+
+        if (request.lastName() != null)
+            contact.setLastName(request.lastName());
+
+        if (request.address() != null)
+            contact.setAddress(request.address());
+
+        if (contact instanceof Freelance freelance && request.vat() != null)
+            freelance.setVat(request.vat());
+
+        if (request.companyIds() != null) {
+            List<Company> companies = resolveCompanies(request.companyIds());
+            contact.getCompanies().clear();
+            contact.getCompanies().addAll(companies);
+        }
+
+        return ContactResponse.from(contact);
+    }
+
+    private List<Company> resolveCompanies(List<Long> companyIds) {
+
+        List<Company> companies = companyRepository
+            .findAllById(companyIds)
+        ;
+        List<Long> missingIds = companyIds
+            .stream()
+            .filter(id -> companies.stream().noneMatch(company -> company.getId().equals(id)))
+            .toList()
+        ;
+
+        if (!missingIds.isEmpty())
+            throw new CompaniesNotFoundException(missingIds);
+
+        return companies;
     }
 }

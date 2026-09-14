@@ -1,11 +1,14 @@
 package com.interview.genesis.controller;
 
-import com.interview.genesis.dto.CreateContactRequest;
+import com.interview.genesis.dto.contact.ContactResponse;
+import com.interview.genesis.dto.contact.CreateContactRequest;
+import com.interview.genesis.dto.contact.UpdateContactRequest;
 import com.interview.genesis.service.ContactService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/contact")
@@ -18,8 +21,26 @@ public class ContactController {
     }
 
     @PostMapping
-    public void create(@RequestBody CreateContactRequest request) throws Exception {
+    public ResponseEntity<ContactResponse> create(@RequestBody CreateContactRequest request) {
 
-        contactService.create(request);
+        ContactResponse response = contactService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(response.id())
+            .toUri()
+        ;
+
+        return ResponseEntity
+            .created(location)
+            .body(response)
+        ;
+    }
+
+    @PutMapping("/{id}")
+    public ContactResponse update(@RequestBody UpdateContactRequest request, @PathVariable Long id) {
+
+        return contactService.update(request, id);
     }
 }

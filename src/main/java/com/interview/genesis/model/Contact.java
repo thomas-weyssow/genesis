@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Check;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
-@Check(constraints = "type <> 'FREELANCE' OR vat IS NOT NULL")
+@Table(check = @CheckConstraint(name = "ck_freelance_has_vat", constraint = "type <> 'FREELANCE' or vat is not null"))
 public abstract class Contact {
 
     @Id
@@ -27,14 +26,7 @@ public abstract class Contact {
     @Column(nullable = false)
     protected String address;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "contact_company",
-        joinColumns = @JoinColumn(name = "contact_id"),
-        inverseJoinColumns = @JoinColumn(name = "company_id"),
-        foreignKey = @ForeignKey(name = "fk_contact_company_contact"),
-        inverseForeignKey = @ForeignKey(name = "fk_contact_company_company")
-    )
+    @ManyToMany
     @JsonManagedReference
     protected List<Company> companies = new ArrayList<>();
 

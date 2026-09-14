@@ -1,4 +1,4 @@
-package com.interview.genesis.dto;
+package com.interview.genesis.dto.contact;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

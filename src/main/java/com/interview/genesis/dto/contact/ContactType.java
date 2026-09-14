@@ -1,4 +1,4 @@
-package com.interview.genesis.dto;
+package com.interview.genesis.dto.contact;
 
 public enum ContactType {
     EMPLOYEE,

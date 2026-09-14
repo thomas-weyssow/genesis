@@ -1,11 +1,14 @@
 package com.interview.genesis.controller;
 
-import com.interview.genesis.dto.CreateCompanyRequest;
+import com.interview.genesis.dto.company.CompanyResponse;
+import com.interview.genesis.dto.company.CreateCompanyRequest;
+import com.interview.genesis.dto.company.UpdateCompanyRequest;
 import com.interview.genesis.service.CompanyService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/company")
@@ -18,7 +21,26 @@ public class CompanyController {
     }
 
     @PostMapping
-    public void create(@RequestBody CreateCompanyRequest createCompanyRequest) {
-        companyService.create(createCompanyRequest);
+    public ResponseEntity<CompanyResponse> create(@RequestBody CreateCompanyRequest request) {
+
+        CompanyResponse response = companyService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(response.id())
+            .toUri()
+        ;
+
+        return ResponseEntity
+            .created(location)
+            .body(response)
+        ;
+    }
+
+    @PutMapping("/{id}")
+    public CompanyResponse update(@RequestBody UpdateCompanyRequest request, @PathVariable Long id) {
+
+        return companyService.update(request, id);
     }
 }

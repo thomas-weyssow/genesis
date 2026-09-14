@@ -1,6 +1,5 @@
 package com.interview.genesis.model;
 
-import com.interview.genesis.dto.ContactType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
