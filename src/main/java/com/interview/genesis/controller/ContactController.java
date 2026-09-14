@@ -5,11 +5,8 @@ import com.interview.genesis.dto.contact.CreateContactRequest;
 import com.interview.genesis.dto.contact.UpdateContactRequest;
 import com.interview.genesis.service.ContactService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -29,21 +26,9 @@ public class ContactController {
     }
 
     @PostMapping
-    public ResponseEntity<ContactResponse> create(@RequestBody CreateContactRequest request) {
+    public ContactResponse create(@RequestBody CreateContactRequest request) {
 
-        ContactResponse response = contactService.create(request);
-
-        URI location = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(response.id())
-            .toUri()
-        ;
-
-        return ResponseEntity
-            .created(location)
-            .body(response)
-        ;
+        return contactService.create(request);
     }
 
     @PutMapping("/{id}")

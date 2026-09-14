@@ -5,11 +5,8 @@ import com.interview.genesis.dto.company.CreateCompanyRequest;
 import com.interview.genesis.dto.company.UpdateCompanyRequest;
 import com.interview.genesis.service.CompanyService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -35,21 +32,10 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<CompanyResponse> create(@RequestBody CreateCompanyRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompanyResponse create(@RequestBody CreateCompanyRequest request) {
 
-        CompanyResponse response = companyService.create(request);
-
-        URI location = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(response.id())
-            .toUri()
-        ;
-
-        return ResponseEntity
-            .created(location)
-            .body(response)
-        ;
+        return companyService.create(request);
     }
 
     @PutMapping("/{id}")
