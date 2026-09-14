@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
@@ -26,9 +25,10 @@ public class CompanyService {
         this.contactRepository = contactRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<CompanyResponse> findAll() {
 
-        List<Company> companies = companyRepository.findAll();
+        List<Company> companies = companyRepository.findAllWithContacts();
 
         return companies
             .stream()
@@ -37,6 +37,7 @@ public class CompanyService {
         ;
     }
 
+    @Transactional(readOnly = true)
     public CompanyResponse findByVat(String vat) {
 
         Company company = companyRepository
@@ -47,6 +48,7 @@ public class CompanyService {
         return CompanyResponse.from(company);
     }
 
+    @Transactional
     public CompanyResponse create(CreateCompanyRequest request) {
 
         Company company = new Company(
@@ -58,6 +60,7 @@ public class CompanyService {
         return CompanyResponse.from(company);
     }
 
+    @Transactional
     public CompanyResponse update(UpdateCompanyRequest request, Long id) {
 
         Company company = companyRepository
@@ -73,6 +76,7 @@ public class CompanyService {
         return CompanyResponse.from(company);
     }
 
+    @Transactional
     public CompanyResponse addContact(Long companyId, Long contactId) {
 
         Company company = companyRepository
@@ -95,6 +99,7 @@ public class CompanyService {
         return CompanyResponse.from(company);
     }
 
+    @Transactional
     public void delete(Long id) {
 
         Company company = companyRepository

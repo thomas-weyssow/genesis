@@ -1,6 +1,5 @@
 package com.interview.genesis.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,6 @@ public class Company {
     private String vat;
 
     @ManyToMany(mappedBy = "companies")
-    @JsonBackReference
     private List<Contact> contacts = new ArrayList<>();
 
     public Company() {}

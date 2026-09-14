@@ -4,6 +4,7 @@ import com.interview.genesis.dto.contact.ContactResponse;
 import com.interview.genesis.dto.contact.CreateContactRequest;
 import com.interview.genesis.dto.contact.UpdateContactRequest;
 import com.interview.genesis.service.ContactService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +27,14 @@ public class ContactController {
     }
 
     @PostMapping
-    public ContactResponse create(@RequestBody CreateContactRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ContactResponse create(@Valid @RequestBody CreateContactRequest request) {
 
         return contactService.create(request);
     }
 
     @PutMapping("/{id}")
-    public ContactResponse update(@RequestBody UpdateContactRequest request, @PathVariable Long id) {
+    public ContactResponse update(@Valid @RequestBody UpdateContactRequest request, @PathVariable Long id) {
 
         return contactService.update(request, id);
     }

@@ -4,6 +4,7 @@ import com.interview.genesis.dto.company.CompanyResponse;
 import com.interview.genesis.dto.company.CreateCompanyRequest;
 import com.interview.genesis.dto.company.UpdateCompanyRequest;
 import com.interview.genesis.service.CompanyService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyResponse create(@RequestBody CreateCompanyRequest request) {
+    public CompanyResponse create(@Valid @RequestBody CreateCompanyRequest request) {
 
         return companyService.create(request);
     }
@@ -45,7 +46,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public CompanyResponse update(@RequestBody UpdateCompanyRequest request, @PathVariable Long id) {
+    public CompanyResponse update(@Valid @RequestBody UpdateCompanyRequest request, @PathVariable Long id) {
 
         return companyService.update(request, id);
     }

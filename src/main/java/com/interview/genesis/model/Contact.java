@@ -1,6 +1,5 @@
 package com.interview.genesis.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,10 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
-@Table(check = @CheckConstraint(name = "ck_freelance_has_vat", constraint = "type <> 'FREELANCE' or vat is not null"))
+@Table(check = @CheckConstraint(
+    name = "ck_freelance_has_vat",
+    constraint = "type <> '" + Freelance.TYPE + "' or vat is not null"
+))
 public abstract class Contact {
 
     @Id
@@ -27,7 +29,6 @@ public abstract class Contact {
     protected String address;
 
     @ManyToMany
-    @JsonManagedReference
     protected List<Company> companies = new ArrayList<>();
 
     protected Contact() {}
@@ -37,4 +38,6 @@ public abstract class Contact {
         this.lastName = lastName;
         this.address = address;
     }
+
+    public abstract String getType();
 }

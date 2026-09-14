@@ -1,20 +1,16 @@
 package com.interview.genesis.dto.company;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 public record CreateCompanyRequest(
 
-    @Schema(
-        description = "Address",
-        example = "123 Main street, 1000 Brussels",
-        requiredMode = Schema.RequiredMode.REQUIRED
-    )
+    @NotBlank
+    @Schema(example = "123 Main street, 1000 Brussels")
     String address,
-    @Schema(
-        description = "VAT number",
-        example = "BE0123456789",
-        requiredMode = Schema.RequiredMode.REQUIRED
-    )
+
+    @NotBlank
+    @Schema(example = "BE0123456789")
     String vat
 
 ) {}

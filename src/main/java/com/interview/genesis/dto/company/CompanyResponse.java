@@ -14,6 +14,7 @@ public record CompanyResponse(
     List<Long> contactIds
 ) {
     public static CompanyResponse from(Company company) {
+
         return new CompanyResponse(
             company.getId(),
             company.getAddress(),

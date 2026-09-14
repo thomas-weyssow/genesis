@@ -14,7 +14,7 @@ public record ContactResponse(
     String firstName,
     String lastName,
     String address,
-    ContactType type,
+    String type,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String vat,
     List<Long> companyIds
@@ -26,7 +26,7 @@ public record ContactResponse(
             contact.getFirstName(),
             contact.getLastName(),
             contact.getAddress(),
-            (contact instanceof Freelance) ? ContactType.FREELANCE: ContactType.EMPLOYEE,
+            contact.getType(),
             (contact instanceof Freelance freelance) ? freelance.getVat() : null,
             contact
                 .getCompanies()

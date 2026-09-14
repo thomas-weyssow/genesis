@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class ContactService {
 
     private final ContactRepository contactRepository;
@@ -26,9 +25,10 @@ public class ContactService {
         this.companyRepository = companyRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<ContactResponse> findAll() {
 
-        List<Contact> contacts = contactRepository.findAll();
+        List<Contact> contacts = contactRepository.findAllWithCompanies();
 
         return contacts
             .stream()
@@ -37,6 +37,7 @@ public class ContactService {
         ;
     }
 
+    @Transactional
     public ContactResponse create(CreateContactRequest request) {
 
         Contact contact = switch (request) {
@@ -62,6 +63,7 @@ public class ContactService {
         return ContactResponse.from(contact);
     }
 
+    @Transactional
     public ContactResponse update(UpdateContactRequest request, Long id) {
 
         Contact contact = contactRepository
@@ -90,6 +92,7 @@ public class ContactService {
         return ContactResponse.from(contact);
     }
 
+    @Transactional
     public void delete(Long id) {
 
         Contact contact = contactRepository
