@@ -1,24 +1,25 @@
 package com.interview.genesis.model;
 
+import com.interview.genesis.dto.ContactType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
+@Entity
+@DiscriminatorValue("FREELANCE")
 public class Freelance extends Contact {
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String vat;
 
     public Freelance() {}
 
     public Freelance(String firstName, String lastName, String address, String vat) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
+        super(firstName, lastName, address);
         this.vat = vat;
     }
 }

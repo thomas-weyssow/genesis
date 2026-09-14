@@ -16,6 +16,7 @@ public class Company {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String address;
     @Column(nullable = false, unique = true)
     private String vat;
