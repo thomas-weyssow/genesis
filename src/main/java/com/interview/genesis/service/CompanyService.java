@@ -21,7 +21,7 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public List<CompanyResponse> all() {
+    public List<CompanyResponse> findAll() {
 
         List<Company> companies = companyRepository.findAll();
 
@@ -30,6 +30,16 @@ public class CompanyService {
             .map(CompanyResponse::from)
             .toList()
         ;
+    }
+
+    public CompanyResponse findByVat(String vat) {
+
+        Company company = companyRepository
+            .findByVat(vat)
+            .orElseThrow(() -> new CompanyNotFoundException(vat))
+        ;
+
+        return CompanyResponse.from(company);
     }
 
     public CompanyResponse create(CreateCompanyRequest request) {

@@ -23,9 +23,9 @@ public class ContactController {
     }
 
     @GetMapping
-    public List<ContactResponse> all() {
+    public List<ContactResponse> findAll() {
 
-        return contactService.all();
+        return contactService.findAll();
     }
 
     @PostMapping

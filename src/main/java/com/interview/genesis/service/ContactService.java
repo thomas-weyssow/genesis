@@ -26,7 +26,7 @@ public class ContactService {
         this.companyRepository = companyRepository;
     }
 
-    public List<ContactResponse> all() {
+    public List<ContactResponse> findAll() {
 
         List<Contact> contacts = contactRepository.findAll();
 

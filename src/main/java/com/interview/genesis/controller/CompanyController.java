@@ -23,9 +23,15 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<CompanyResponse> all() {
+    public List<CompanyResponse> findAll() {
 
-        return companyService.all();
+        return companyService.findAll();
+    }
+
+    @GetMapping("/vat/{vat}")
+    public CompanyResponse findByVat(@PathVariable String vat) {
+
+        return companyService.findByVat(vat);
     }
 
     @PostMapping
