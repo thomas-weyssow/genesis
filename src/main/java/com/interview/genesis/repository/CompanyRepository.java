@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Data access for companies.
+ */
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 

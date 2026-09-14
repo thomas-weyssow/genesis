@@ -7,6 +7,10 @@ import com.interview.genesis.model.Freelance;
 
 import java.util.List;
 
+/**
+ * Creation payload for a contact. Polymorphic: the {@code type} property selects the
+ * concrete request, which is what makes the VAT number mandatory for a freelance.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     property = "type"

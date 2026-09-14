@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
+/**
+ * A contact as returned by the API.
+ */
 @Schema(name = "Contact")
 public record ContactResponse(
     Long id,

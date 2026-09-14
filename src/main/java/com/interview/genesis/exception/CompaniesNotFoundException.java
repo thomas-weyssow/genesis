@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Thrown when company ids inside a request body match no company. Mapped to 422.
+ */
 public class CompaniesNotFoundException extends RuntimeException {
 
     private static String buildMessage(Collection<Long> ids) {

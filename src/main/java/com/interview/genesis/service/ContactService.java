@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Business operations on contacts.
+ */
 @Service
 public class ContactService {
 
@@ -103,6 +106,11 @@ public class ContactService {
         contactRepository.delete(contact);
     }
 
+    /**
+     * Loads the companies matching the given ids list.
+     *
+     * @throws CompaniesNotFoundException if any id matches no company
+     */
     private List<Company> resolveCompanies(List<Long> companyIds) {
 
         List<Company> companies = companyRepository

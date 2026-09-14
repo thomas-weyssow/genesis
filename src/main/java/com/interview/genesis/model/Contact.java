@@ -7,6 +7,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A person working for zero or more companies. Mapped with single-table inheritance;
+ * {@link Employee} and {@link Freelance} are the concrete types.
+ */
 @Getter
 @Setter
 @Entity
@@ -39,5 +43,8 @@ public abstract class Contact {
         this.address = address;
     }
 
+    /**
+     * The discriminator value of this contact, as exposed by the API.
+     */
     public abstract String getType();
 }

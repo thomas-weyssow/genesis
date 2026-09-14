@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
+/**
+ * Creation payload for a freelance, for which VAT number is mandatory.
+ */
 public record CreateFreelanceRequest(
 
     @NotBlank

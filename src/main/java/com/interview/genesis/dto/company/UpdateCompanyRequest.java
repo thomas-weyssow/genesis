@@ -2,6 +2,9 @@ package com.interview.genesis.dto.company;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Partial update payload for a company: a null field is left unchanged.
+ */
 public record UpdateCompanyRequest(
 
     @Schema(example = "123 Main street, 1000 Brussels")

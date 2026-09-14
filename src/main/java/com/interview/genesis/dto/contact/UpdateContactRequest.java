@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
+/**
+ * Partial update payload for a contact: a null field is left unchanged. The type cannot be changed.
+ */
 public record UpdateContactRequest(
 
     @Schema(example = "John")

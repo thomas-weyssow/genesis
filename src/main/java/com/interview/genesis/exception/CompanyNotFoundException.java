@@ -1,5 +1,8 @@
 package com.interview.genesis.exception;
 
+/**
+ * Thrown when a company id or VAT number taken from the URL matches no company. Mapped to 404.
+ */
 public class CompanyNotFoundException extends RuntimeException {
 
     public CompanyNotFoundException(Long id) {

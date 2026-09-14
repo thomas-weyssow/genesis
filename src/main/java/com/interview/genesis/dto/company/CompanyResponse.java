@@ -6,6 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
+/**
+ * A company as returned by the API.
+ */
 @Schema(name = "Company")
 public record CompanyResponse(
     Long id,

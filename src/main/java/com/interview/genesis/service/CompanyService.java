@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Business operations on companies, including the link with contacts.
+ */
 @Service
 public class CompanyService {
 
@@ -76,6 +79,9 @@ public class CompanyService {
         return CompanyResponse.from(company);
     }
 
+    /**
+     * Links a contact to a company. linking an already linked contact has no effect.
+     */
     @Transactional
     public CompanyResponse addContact(Long companyId, Long contactId) {
 
@@ -99,6 +105,9 @@ public class CompanyService {
         return CompanyResponse.from(company);
     }
 
+    /**
+     * Deletes a company after unlinking it from its contacts. The contacts themselves are kept.
+     */
     @Transactional
     public void delete(Long id) {
 

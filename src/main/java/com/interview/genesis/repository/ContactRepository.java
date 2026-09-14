@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Data access for contacts.
+ */
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 

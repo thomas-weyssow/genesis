@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
-
+/**
+ * Creation payload for an employee.
+ */
 public record CreateEmployeeRequest(
 
     @NotBlank

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST endpoints for contacts
+ */
 @RestController
 @RequestMapping("/contact")
 public class ContactController {

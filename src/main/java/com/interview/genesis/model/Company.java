@@ -7,6 +7,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A company, identified by its VAT number.
+ * Inverse side of the association with {@link Contact}.
+ */
 @Getter
 @Setter
 @Entity
