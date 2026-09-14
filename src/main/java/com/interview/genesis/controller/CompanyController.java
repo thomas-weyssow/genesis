@@ -38,6 +38,12 @@ public class CompanyController {
         return companyService.create(request);
     }
 
+    @PostMapping("/{companyId}/contact/{contactId}")
+    public CompanyResponse addContact(@PathVariable Long companyId, @PathVariable Long contactId) {
+
+        return companyService.addContact(companyId, contactId);
+    }
+
     @PutMapping("/{id}")
     public CompanyResponse update(@RequestBody UpdateCompanyRequest request, @PathVariable Long id) {
 

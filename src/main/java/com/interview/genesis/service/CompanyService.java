@@ -4,8 +4,11 @@ import com.interview.genesis.dto.company.CompanyResponse;
 import com.interview.genesis.dto.company.CreateCompanyRequest;
 import com.interview.genesis.dto.company.UpdateCompanyRequest;
 import com.interview.genesis.exception.CompanyNotFoundException;
+import com.interview.genesis.exception.ContactNotFoundException;
 import com.interview.genesis.model.Company;
+import com.interview.genesis.model.Contact;
 import com.interview.genesis.repository.CompanyRepository;
+import com.interview.genesis.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +19,11 @@ import java.util.List;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
+    private final ContactRepository contactRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository, ContactRepository contactRepository) {
         this.companyRepository = companyRepository;
+        this.contactRepository = contactRepository;
     }
 
     public List<CompanyResponse> findAll() {
@@ -64,6 +69,28 @@ public class CompanyService {
             company.setAddress(request.address());
         if (request.vat() != null)
             company.setVat(request.vat());
+
+        return CompanyResponse.from(company);
+    }
+
+    public CompanyResponse addContact(Long companyId, Long contactId) {
+
+        Company company = companyRepository
+            .findById(companyId)
+            .orElseThrow(() -> new CompanyNotFoundException(companyId))
+        ;
+
+        Contact contact = contactRepository
+            .findById(contactId)
+            .orElseThrow(() -> new ContactNotFoundException(contactId))
+        ;
+
+        if (!company.getContacts().contains(contact)) {
+            // owning side: this is what writes the join row
+            contact.getCompanies().add(company);
+            // in-memory only, so the response is accurate
+            company.getContacts().add(contact);
+        }
 
         return CompanyResponse.from(company);
     }
