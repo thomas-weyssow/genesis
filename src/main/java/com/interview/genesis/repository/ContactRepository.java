@@ -15,6 +15,9 @@ import java.util.List;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 
+    /**
+     * Find all contacts query using the EntityGraph annotation to avoid Hibernate's N+1 query problem.
+     */
     @EntityGraph(attributePaths = "companies")
     @Query("select c from Contact c")
     List<Contact> findAllWithCompanies();
